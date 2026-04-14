@@ -1,1 +1,158 @@
-/* Add styles here */
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --background-color: #f0f2f5;
+    --text-color: #333;
+    --white: #fff;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #7ab3f4, #6ac0fa, #52d0fa, #43e0f7, #45eef1, #5ffbec);
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+    background: var(--glass-bg);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    color: var(--white);
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.lotto-numbers-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    min-height: 70px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px 0 rgba(74, 144, 226, 0.4);
+}
+
+button:hover {
+    background-color: #357abd;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px 0 rgba(74, 144, 226, 0.6);
+}
+
+button:active {
+    transform: translateY(-1px) scale(1);
+}
+
+button.secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.1);
+}
+
+button.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.history-section {
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.history-section h3 {
+    color: var(--white);
+    margin-top: 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 10px;
+}
+
+#history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: var(--white);
+    font-size: 0.9rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+.history-numbers {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: none;
+    box-shadow: none;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+lotto-ball {
+    --ball-color: #50e3c2;
+    --size: 60px;
+}
