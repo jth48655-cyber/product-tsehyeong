@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Generator</title>
+    <title>AI Animal Face Test</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="bg-info">
         <div class="dev-name">Developer: Taehyeong (1982)</div>
-        <div class="win-msg">✨ Good Luck! Congratulations on Winning! ✨</div>
+        <div class="win-msg">✨ AI Animal Face Test & Lotto Generator ✨</div>
     </div>
 
     <div class="controls">
@@ -24,16 +24,56 @@
     <div id="player" style="position: absolute; width: 0; height: 0; pointer-events: none; opacity: 0;"></div>
 
     <div class="container">
-        <h1>Lotto Number Generator</h1>
-        <div id="lotto-numbers" class="lotto-numbers-container"></div>
-        <div class="button-group">
-            <button id="generate-btn">Generate Numbers</button>
-            <button id="reset-btn" class="secondary">Reset</button>
-        </div>
-        <div id="history-section" class="history-section">
-            <h3>Recent Sets</h3>
-            <ul id="history-list"></ul>
-        </div>
+        <!-- 동물상 테스트 섹션 -->
+        <section class="animal-test-section">
+            <h1>Animal Face Test</h1>
+            <p class="subtitle">Am I a Dog or a Cat?</p>
+            
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="image-upload" accept="image/*" hidden>
+                <div id="image-preview" class="image-preview">
+                    <div class="upload-placeholder">
+                        <span>📸</span>
+                        <p>Click to Upload Your Photo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+            
+            <div id="result-container" class="result-container" style="display: none;">
+                <h2 id="result-title">Result</h2>
+                <div class="progress-bars">
+                    <div class="progress-item">
+                        <span>🐶 Dog</span>
+                        <div class="bar-bg"><div id="dog-bar" class="bar-fill dog-color"></div></div>
+                        <span id="dog-percent">0%</span>
+                    </div>
+                    <div class="progress-item">
+                        <span>🐱 Cat</span>
+                        <div class="bar-bg"><div id="cat-bar" class="bar-fill cat-color"></div></div>
+                        <span id="cat-percent">0%</span>
+                    </div>
+                </div>
+                <button id="retry-btn" class="secondary">Retry</button>
+            </div>
+        </section>
+
+        <hr style="margin: 4rem 0; border: none; border-top: 1px solid var(--glass-border);">
+
+        <!-- 기존 로또 섹션 -->
+        <section class="lotto-section">
+            <h1>Lotto Generator</h1>
+            <div id="lotto-numbers" class="lotto-numbers-container"></div>
+            <div class="button-group">
+                <button id="generate-btn">Generate Numbers</button>
+                <button id="reset-btn" class="secondary">Reset</button>
+            </div>
+            <div id="history-section" class="history-section">
+                <h3>Recent Sets</h3>
+                <ul id="history-list"></ul>
+            </div>
+        </section>
 
         <div class="contact-section">
             <h3>Partnership Inquiry</h3>
@@ -44,25 +84,28 @@
             </form>
         </div>
 
-        <div class="comments-section" style="margin-top: 3rem; padding: 2rem; background: rgba(255, 255, 255, 0.05); border-radius: 24px; border: 1px solid var(--glass-border);">
+        <div class="comments-section">
             <div id="disqus_thread"></div>
             <script>
-                (function() { // DON'T EDIT BELOW THIS LINE
+                (function() {
                 var d = document, s = d.createElement('script');
                 s.src = 'https://productbilder-1.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
                 (d.head || d.body).appendChild(s);
                 })();
             </script>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         </div>
 
-        <div class="qr-section" style="margin-top: 3rem; padding: 2rem; background: rgba(255, 255, 255, 0.1); border-radius: 24px; border: 1px solid var(--glass-border); text-align: center;">
-            <h3 style="color: var(--white); margin-bottom: 1rem;">Scan to Visit</h3>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://10ba1b12.product-tsehyeong.pages.dev/" alt="Site QR Code" style="border-radius: 12px; border: 5px solid white; box-shadow: 0 10px 20px rgba(0,0,0,0.3);">
-            <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 1rem;">https://10ba1b12.product-tsehyeong.pages.dev/</p>
+        <div class="qr-section">
+            <h3>Scan to Visit</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://10ba1b12.product-tsehyeong.pages.dev/" alt="Site QR Code">
+            <p>https://10ba1b12.product-tsehyeong.pages.dev/</p>
         </div>
     </div>
+
+    <!-- TF.js & Teachable Machine Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="main.js"></script>
 </body>

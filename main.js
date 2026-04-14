@@ -41,15 +41,12 @@ class LottoBall extends HTMLElement {
 
 customElements.define('lotto-ball', LottoBall);
 
-const generateBtn = document.getElementById('generate-btn');
-const resetBtn = document.getElementById('reset-btn');
-const lottoNumbersContainer = document.getElementById('lotto-numbers');
-const historyList = document.getElementById('history-list');
+// Global Elements
 const themeToggle = document.getElementById('theme-toggle');
 const musicToggle = document.getElementById('music-toggle');
 const volumeSlider = document.getElementById('volume-slider');
 
-// Theme logic
+// --- Theme logic ---
 const currentTheme = localStorage.getItem('theme');
 if (currentTheme === 'light') {
     document.body.classList.add('light-mode');
@@ -61,7 +58,7 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', theme);
 });
 
-// Music logic (YouTube IFrame API)
+// --- Music logic (YouTube IFrame API) ---
 let player;
 let isMusicPlaying = false;
 
@@ -69,7 +66,7 @@ window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player('player', {
         height: '0',
         width: '0',
-        videoId: 'OZmy01O6UIo', // 배치기 - 눈물샤워 (feat. 에일리)
+        videoId: 'OZmy01O6UIo', // 배치기 - 눈물샤워
         playerVars: {
             'autoplay': 0,
             'controls': 0,
@@ -78,7 +75,6 @@ window.onYouTubeIframeAPIReady = () => {
         },
         events: {
             'onReady': (event) => {
-                console.log('Music player ready');
                 player.setVolume(volumeSlider.value);
             }
         }
@@ -87,7 +83,6 @@ window.onYouTubeIframeAPIReady = () => {
 
 musicToggle.addEventListener('click', () => {
     if (!player) return;
-
     if (isMusicPlaying) {
         player.pauseVideo();
         musicToggle.classList.remove('playing');
@@ -106,14 +101,88 @@ volumeSlider.addEventListener('input', (e) => {
     }
 });
 
-let history = [];
+// --- Animal Face Test Logic ---
+const URL = "https://teachablemachine.withgoogle.com/models/G-v6SqZge/"; // Example model, replace with yours if needed
+let model, labelContainer, maxPredictions;
+
+const uploadArea = document.getElementById('upload-area');
+const imageUpload = document.getElementById('image-upload');
+const imagePreview = document.getElementById('image-preview');
+const resultContainer = document.getElementById('result-container');
+const loadingSpinner = document.getElementById('loading-spinner');
+const retryBtn = document.getElementById('retry-btn');
+
+uploadArea.addEventListener('click', () => imageUpload.click());
+
+imageUpload.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+        imagePreview.innerHTML = `<img src="${event.target.result}" id="face-image">`;
+        await initAndPredict();
+    };
+    reader.readAsDataURL(file);
+});
+
+async function initAndPredict() {
+    loadingSpinner.style.display = 'block';
+    resultContainer.style.display = 'none';
+
+    if (!model) {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+    }
+
+    const img = document.getElementById('face-image');
+    const prediction = await model.predict(img);
+    
+    loadingSpinner.style.display = 'none';
+    resultContainer.style.display = 'block';
+
+    prediction.forEach(p => {
+        const className = p.className.toLowerCase();
+        const probability = (p.probability * 100).toFixed(0);
+        
+        if (className.includes('dog')) {
+            document.getElementById('dog-bar').style.width = probability + '%';
+            document.getElementById('dog-percent').innerText = probability + '%';
+        } else if (className.includes('cat')) {
+            document.getElementById('cat-bar').style.width = probability + '%';
+            document.getElementById('cat-percent').innerText = probability + '%';
+        }
+    });
+
+    const highest = prediction.sort((a, b) => b.probability - a.probability)[0];
+    document.getElementById('result-title').innerText = `You look like a ${highest.className}!`;
+}
+
+retryBtn.addEventListener('click', () => {
+    imageUpload.value = '';
+    imagePreview.innerHTML = `
+        <div class="upload-placeholder">
+            <span>📸</span>
+            <p>Click to Upload Your Photo</p>
+        </div>
+    `;
+    resultContainer.style.display = 'none';
+});
+
+// --- Lotto Logic ---
+const generateBtn = document.getElementById('generate-btn');
+const resetBtn = document.getElementById('reset-btn');
+const lottoNumbersContainer = document.getElementById('lotto-numbers');
+const historyList = document.getElementById('history-list');
 
 const getBallColor = (number) => {
-    if (number <= 10) return '#f39c12'; // Yellow
-    if (number <= 20) return '#3498db'; // Blue
-    if (number <= 30) return '#e74c3c'; // Red
-    if (number <= 40) return '#7f8c8d'; // Grey
-    return '#2ecc71'; // Green
+    if (number <= 10) return '#f39c12';
+    if (number <= 20) return '#3498db';
+    if (number <= 30) return '#e74c3c';
+    if (number <= 40) return '#7f8c8d';
+    return '#2ecc71';
 };
 
 const addToHistory = (numbers) => {
@@ -124,34 +193,20 @@ const addToHistory = (numbers) => {
         <span class="history-numbers">${numbersStr}</span>
         <button class="copy-btn" onclick="copyToClipboard('${numbersStr}')">Copy</button>
     `;
-    
-    if (historyList.firstChild) {
-        historyList.insertBefore(historyItem, historyList.firstChild);
-    } else {
-        historyList.appendChild(historyItem);
-    }
-
-    if (historyList.children.length > 5) {
-        historyList.removeChild(historyList.lastChild);
-    }
+    if (historyList.firstChild) historyList.insertBefore(historyItem, historyList.firstChild);
+    else historyList.appendChild(historyItem);
+    if (historyList.children.length > 5) historyList.removeChild(historyList.lastChild);
 };
 
 window.copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-        alert('Numbers copied to clipboard!');
-    });
+    navigator.clipboard.writeText(text).then(() => alert('Numbers copied!'));
 };
 
 generateBtn.addEventListener('click', () => {
     lottoNumbersContainer.innerHTML = '';
     const numbers = new Set();
-
-    while (numbers.size < 6) {
-        numbers.add(Math.floor(Math.random() * 45) + 1);
-    }
-
+    while (numbers.size < 6) numbers.add(Math.floor(Math.random() * 45) + 1);
     const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
-
     sortedNumbers.forEach((number, index) => {
         setTimeout(() => {
             const lottoBall = document.createElement('lotto-ball');
@@ -160,7 +215,6 @@ generateBtn.addEventListener('click', () => {
             lottoNumbersContainer.appendChild(lottoBall);
         }, index * 200);
     });
-
     addToHistory(sortedNumbers);
 });
 
