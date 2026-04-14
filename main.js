@@ -47,6 +47,7 @@ const lottoNumbersContainer = document.getElementById('lotto-numbers');
 const historyList = document.getElementById('history-list');
 const themeToggle = document.getElementById('theme-toggle');
 const musicToggle = document.getElementById('music-toggle');
+const volumeSlider = document.getElementById('volume-slider');
 
 // Theme logic
 const currentTheme = localStorage.getItem('theme');
@@ -78,6 +79,7 @@ window.onYouTubeIframeAPIReady = () => {
         events: {
             'onReady': (event) => {
                 console.log('Music player ready');
+                player.setVolume(volumeSlider.value);
             }
         }
     });
@@ -96,6 +98,12 @@ musicToggle.addEventListener('click', () => {
         musicToggle.innerText = '📻';
     }
     isMusicPlaying = !isMusicPlaying;
+});
+
+volumeSlider.addEventListener('input', (e) => {
+    if (player && player.setVolume) {
+        player.setVolume(e.target.value);
+    }
 });
 
 let history = [];
