@@ -102,7 +102,7 @@ volumeSlider.addEventListener('input', (e) => {
 });
 
 // --- Animal Face Test Logic ---
-const URL = "https://teachablemachine.withgoogle.com/models/G-v6SqZge/"; // Example model, replace with yours if needed
+const URL = "https://teachablemachine.withgoogle.com/models/8vu6fX5XF/"; // Your specific model URL
 let model, labelContainer, maxPredictions;
 
 const uploadArea = document.getElementById('upload-area');
