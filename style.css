@@ -50,10 +50,16 @@ body.light-mode {
     100% { background-position: 0% 50%; }
 }
 
-.theme-toggle {
+.controls {
     position: fixed;
     top: 25px;
     right: 25px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.control-btn {
     background: var(--glass-bg);
     border: 2px solid var(--glass-border);
     color: var(--text-color);
@@ -67,15 +73,26 @@ body.light-mode {
     align-items: center;
     justify-content: center;
     backdrop-filter: blur(16px);
-    z-index: 1000;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
 }
 
-.theme-toggle:hover {
-    transform: rotate(180deg) scale(1.1);
+.control-btn:hover {
+    transform: scale(1.1);
     background: var(--white);
     color: var(--background-color);
+}
+
+#music-toggle.playing {
+    animation: pulseMusic 2s infinite;
+    background: #ff0080;
+    color: white;
+}
+
+@keyframes pulseMusic {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 128, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(255, 0, 128, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 128, 0); }
 }
 
 .container {

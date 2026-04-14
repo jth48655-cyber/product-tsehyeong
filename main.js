@@ -46,6 +46,7 @@ const resetBtn = document.getElementById('reset-btn');
 const lottoNumbersContainer = document.getElementById('lotto-numbers');
 const historyList = document.getElementById('history-list');
 const themeToggle = document.getElementById('theme-toggle');
+const musicToggle = document.getElementById('music-toggle');
 
 // Theme logic
 const currentTheme = localStorage.getItem('theme');
@@ -57,6 +58,44 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const theme = document.body.classList.contains('light-mode') ? 'light' : 'dark';
     localStorage.setItem('theme', theme);
+});
+
+// Music logic (YouTube IFrame API)
+let player;
+let isMusicPlaying = false;
+
+window.onYouTubeIframeAPIReady = () => {
+    player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: 'OZmy01O6UIo', // 배치기 - 눈물샤워 (feat. 에일리)
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'loop': 1,
+            'playlist': 'OZmy01O6UIo'
+        },
+        events: {
+            'onReady': (event) => {
+                console.log('Music player ready');
+            }
+        }
+    });
+};
+
+musicToggle.addEventListener('click', () => {
+    if (!player) return;
+
+    if (isMusicPlaying) {
+        player.pauseVideo();
+        musicToggle.classList.remove('playing');
+        musicToggle.innerText = '🎵';
+    } else {
+        player.playVideo();
+        musicToggle.classList.add('playing');
+        musicToggle.innerText = '📻';
+    }
+    isMusicPlaying = !isMusicPlaying;
 });
 
 let history = [];

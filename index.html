@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌓</button>
+    <div class="controls">
+        <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">🌓</button>
+        <button id="music-toggle" class="control-btn" aria-label="Toggle music">🎵</button>
+    </div>
+    
+    <div id="player" style="position: absolute; width: 0; height: 0; pointer-events: none; opacity: 0;"></div>
+
     <div class="container">
         <h1>Lotto Number Generator</h1>
         <div id="lotto-numbers" class="lotto-numbers-container"></div>
@@ -21,6 +27,7 @@
             <ul id="history-list"></ul>
         </div>
     </div>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="main.js"></script>
 </body>
 </html>
