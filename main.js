@@ -12,23 +12,26 @@ class LottoBall extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 .ball {
-                    width: var(--size, 60px);
-                    height: var(--size, 60px);
+                    width: var(--size, 64px);
+                    height: var(--size, 64px);
                     border-radius: 50%;
-                    background-color: var(--ball-color, #50e3c2);
+                    background: radial-gradient(circle at 30% 30%, var(--ball-color, #50e3c2), #000);
                     color: white;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    font-size: 24px;
-                    font-weight: bold;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-                    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    font-size: 26px;
+                    font-weight: 800;
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), inset 0 -5px 15px rgba(0,0,0,0.4), inset 0 5px 15px rgba(255,255,255,0.4);
+                    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                    border: 2px solid rgba(255,255,255,0.1);
                 }
 
                 @keyframes popIn {
-                    0% { opacity: 0; transform: scale(0) rotate(-180deg); }
-                    100% { opacity: 1; transform: scale(1) rotate(0); }
+                    0% { opacity: 0; transform: scale(0) translateY(50px) rotate(-180deg); }
+                    60% { transform: scale(1.1) translateY(-10px) rotate(10deg); }
+                    100% { opacity: 1; transform: scale(1) translateY(0) rotate(0); }
                 }
             </style>
             <div class="ball" style="--ball-color: ${color};">${number}</div>
